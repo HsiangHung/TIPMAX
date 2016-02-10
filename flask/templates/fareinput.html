@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" media="screen">
+     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+    <title>Taxi Drivers Tip Heatmap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+
+    <style type="text/css">
+      .container {
+      } 
+      h2 {color: red;}
+    </style>
+
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../static/css/starter-template.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="../../assets/js/ie-emulation-modes-warning.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+
+<!------------------------------------------------------------------------------------------------------>
+  <body>
+
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">TIP MAX</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="/">Home</a></li>
+            <li><a href="/tipinput">Tips</a></li>
+	    <li><a href="/fareinput">Fare</a></li>
+            <li><a href="https://www.linkedin.com/in/hsianghhung">About me</a></li>
+            <!-- <li><a href="#contact">Contact</a></li> -->
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class = "container">
+
+        <table style="width:90%">
+        <tr>
+        <td><img src="http://www.thesydneytaxischool.com/media/pics/site/imagecache/D/8/D8D4F71150340712CCFBECA9CEFE2AED.png" alt="taxi icon" style="width:110px;height:110px;"></td>
+
+        <td><div class="starter-template">
+              <h1>NYC Taxi Fare Heatmap</h1>
+              <p class="lead"> Find best location to max your fare!</p>
+        </div></td>
+                
+        <td>
+      <!--  <div class = "container">  -->
+            <form  name="/fareinput" action="/fareoutput" method="GET">
+                <div class="form-group">
+                    <label for="searchDate"><h4  style="color:blue;">Date:</h4></label>
+                    <input type="text" size="20" id="searchDate" name='date' placeholder="e.g. 2009-02-03">
+                </div>
+                <div class="form-group">
+                    <label for="searchTime"><h4 style="color:blue;">Time:</h4></label>
+                    <input type="text" size="20" id="searchTime" name='time' placeholder="e.g. 18:39:50">
+                </div>
+         </td>
+         <td>
+               <div><button type="submit" class="btn btn-default btn-lg">Fare Max!</button></div> 
+            </form>
+         </td>
+        </tr>
+      <!--  </div>  -->
+      </table>
+
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="static/js/bootstrap.min.js"></script>
+
+    </div>  
+
+
+
+
+    <div class="container">
+     <div class="container">   
+
+        <div id="map" style="width: 1000px; height: 400px"></div>
+
+	<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+
+	<script>
+
+	  var map = L.map('map').setView([40.74394, -73.99098], 13);
+
+	  L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {maxZoom: 18,
+      attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+      '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+      'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+      id: 'mapbox.streets'
+      }).addTo(map);
+
+
+	  L.marker([40.74394, -73.99098]).addTo(map).bindPopup("<b>Hello world!</b><br />Insight is here!").openPopup();
+
+	<!--  L.circle([51.508, -0.11], 500, {color: 'red', fillColor: '#f03', fillOpacity: 0.5}).addTo(map).bindPopup("I am a circle.");  -->
+
+	<!--  L.polygon([ [51.509, -0.08], [51.503, -0.06], [51.51, -0.047] ]).addTo(map).bindPopup("I am a polygon."); -->
+
+	  var popup = L.popup();
+
+	  function onMapClick(e) {popup.setLatLng(e.latlng).setContent("You clicked the map at " + e.latlng.toString()).openOn(map);}
+
+	  map.on('click', onMapClick);
+
+      </script>
+
+     </div>
+    </div>
+
+    </br>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="../../static/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+  </body>
+  </body>
+</html>
