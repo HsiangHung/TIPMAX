@@ -2,13 +2,22 @@ from app import app
 from flask import jsonify
 from cassandra.cluster import Cluster
 cluster = Cluster(['52.72.109.43','52.22.233.5','52.21.15.67','52.2.153.27'])
-session = cluster.connect('taxi_2009')
+session2009 = cluster.connect('taxi_2009')
+session2010 = cluster.connect('taxi_2010')
+
 
 from flask import render_template, request
 from datetime import datetime
 #import MySQLdb as mdb
 
 
+
+@app.route('/realtime')
+def realtime():
+    return render_template("realtime.html")
+
+
+################################################################################################
 
 @app.route("/")
 def map():
@@ -41,7 +50,9 @@ def output():
        if Time_1 >= 235500: Time_2 = 235959
 #       print time_1, time_2
        stmt= "SELECT * FROM "+table+" WHERE apick_date=%s and bpick_time >= %s and bpick_time <= %s"
-       response = session.execute(stmt,parameters=[Date, Time_1, Time_2])
+       if year == '2009': response = session2009.execute(stmt,parameters=[Date, Time_1, Time_2])
+       if year == '2010': response = session2010.execute(stmt,parameters=[Date, Time_1, Time_2])
+       #response = session.execute(stmt,parameters=[Date, Time_1, Time_2])
        taxi = []
        for val in response:
 #            val = val
@@ -53,7 +64,7 @@ def output():
 #                       "tips ratio ": x.tipsratio} for x in taxi]
 #       jsonresponse = [{"x ": x[0], "y ": x[1], "tips rate ": x[2]} for x in taxi]
 #       return jsonify(data=jsonresponse)
-       return render_template('output.html', taxidata=taxi)
+       return render_template('output.html', taxidata=taxi, date=date, time=time)
 
 
 
@@ -83,14 +94,16 @@ def tipoutput():
        Time_2 = int(Time)+500
        if Time_1 >= 235500: Time_2 = 235959
        stmt= "SELECT * FROM "+table+" WHERE apick_date=%s and bpick_time >= %s and bpick_time <= %s"
-       response = session.execute(stmt,parameters=[Date, Time_1, Time_2])
+       if year == '2009': response = session2009.execute(stmt,parameters=[Date, Time_1, Time_2])
+       if year == '2010': response = session2010.execute(stmt,parameters=[Date, Time_1, Time_2])
+       #response = session.execute(stmt,parameters=[Date, Time_1, Time_2])
        taxi = []
        for val in response:
 #            val = val
             taxi.append([float(val.pick_loc.replace('[','').replace(']','').split(',')[1].encode('utf-8')),\
                          float(val.pick_loc.replace('[','').replace(']','').split(',')[0].encode('utf-8')),\
-                         100*float(val.tipsratio.encode('utf-8'))] )
-       return render_template('tipoutput.html', taxidata=taxi)
+                         50*float(val.tipsratio.encode('utf-8'))] )
+       return render_template('tipoutput.html', taxidata=taxi, date=date, time=time)
 
 
 
@@ -119,13 +132,15 @@ def fareoutput():
        Time_2 = int(Time)+500
        if Time_1 >= 235500: Time_2 = 235959
        stmt= "SELECT * FROM "+table+" WHERE apick_date=%s and bpick_time >= %s and bpick_time <= %s"
-       response = session.execute(stmt,parameters=[Date, Time_1, Time_2])
+       if year == '2009': response = session2009.execute(stmt,parameters=[Date, Time_1, Time_2])
+       if year == '2010': response = session2010.execute(stmt,parameters=[Date, Time_1, Time_2])
+       #response = session.execute(stmt,parameters=[Date, Time_1, Time_2])
        taxi = []
        for val in response:
             taxi.append([float(val.pick_loc.replace('[','').replace(']','').split(',')[1].encode('utf-8')),\
                          float(val.pick_loc.replace('[','').replace(']','').split(',')[0].encode('utf-8')),\
                          float(val.totalpay.encode('utf-8'))] )
-       return render_template('fareoutput.html', taxidata=taxi)
+       return render_template('fareoutput.html', taxidata=taxi, date=date, time=time)
 
 
 

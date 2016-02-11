@@ -45,6 +45,11 @@ from pyspark.streaming.kafka import KafkaUtils
 
 from datetime import datetime
 
+#import pandas
+from pyspark.sql.functions import udf
+from pyspark.sql.types import IntegerType
+
+#
 from pytz import timezone
 
 from pyspark_cassandra import streaming
@@ -92,9 +97,6 @@ if __name__ == "__main__":
     ## date, pick-time, pick_loc(x), pick_loc(y), tips, tips-ratio, total-fare
 
  
-    ## pic-up time filter:
-    #output = output.filter(lambda x:  time2 > x[1] > realtime)
-
     #output = output.filter(lambda x:  (x[3] == 0.0) & (x[12] != 0))  ## for zero distance but with finite fare
     
     ## pick-up location filter:
@@ -108,6 +110,13 @@ if __name__ == "__main__":
         print("========= %s =========" % str(time))
 
         now_time = datetime.now(timezone('US/Eastern'))
+        date = now_time.strftime('%Y-%m-%d')
+
+        year = now_time.strftime('%Y')
+        month = now_time.strftime('%m')
+        day = now_time.strftime('%d')
+        date = int(str(year)+str(month).zfill(2)+str(day).zfill(2))
+
         hour = now_time.strftime('%H')
         mins = now_time.strftime('%M')
         sec  = now_time.strftime('%S')
@@ -126,24 +135,29 @@ if __name__ == "__main__":
 
         # Convert RDD[String] to RDD[Row] to DataFrame  
         rowRdd = rddUpdate.map(lambda w: Row(adate=w[0],btime=w[1],cloc_x=w[2],dloc_y=w[3], etips=w[4],\
-                            fratio=w[5], pay=w[6]))
+                                                    fratio=w[5], pay=w[6], date=date, time=realtime))
         wordsDataFrame = sqlContext.createDataFrame(rowRdd)
         #wordsDataFrame = sqlContext.createDataFrame(output,["date","time", "tips"])
+
 
         # Register as table
         wordsDataFrame.registerTempTable("outputTable")
         #wordsDataFrame.show()
 
         # Do word count on table using SQL and print it
-        testDataFrame = sqlContext.sql("select * from outputTable ORDER BY fratio  DESC limit 5")
-        summaryDataFrame = sqlContext.sql("select min(fratio) as min, max(fratio) as max, avg(fratio) as avg from outputTable")
+        testDataFrame = sqlContext.sql("select adate,btime,cloc_x,dloc_y,etips, fratio, pay from outputTable ORDER BY fratio  DESC limit 5")
+        summaryDataFrame = sqlContext.sql("select cast(avg(date) as Integer) as date, cast(avg(time) as Integer) as time, min(fratio) as min, max(fratio) as max, avg(fratio) as avg from outputTable")
         
-#        summaryDataFrame.saveToCassandra("test", "playtest" )# save RDD to cassandra
 
         testDataFrame.write.format("org.apache.spark.sql.cassandra").options(table="playtest",keyspace="test").save(mode="append")
 
+        summaryDataFrame.write.format("org.apache.spark.sql.cassandra").options(table="agg",keyspace="test").save(mode="append")
+
+
         testDataFrame.show()
         summaryDataFrame.show()
+
+        #summaryDataFrame[0,0].pprint()
 
 
 
