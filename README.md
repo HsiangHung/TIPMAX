@@ -1,5 +1,6 @@
 # TIPMAX
 
 ## Motivation
-The web app, Tip Max, is designed for taxi drivers to maximize tehir income. It will show the pick-up locations, the tip (percentage) and the total fare that passanges paid in the past years.
+
+My Insight project is to design a web app, named Tip Max, to help (NYC) taxi drivers to maximize tehir income. It will show the pick-up locations, the tip (percentage) and the total fare that passanges paid in the past years.
 This is my Insight project!
