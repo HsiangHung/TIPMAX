@@ -23,4 +23,4 @@ I also built the real-time streaming pipeline. The NYC does not provide live-str
 After collecting data, the Spark streaming filters out the events based on the current (eastern) time, and then we implement the Spark streaming SQL to do aggregation operations, such as listing top-five high-tip locations and finding averaged/maximum tips during the time window. The time window could be few seconds or a minute, set in Spark Streaming. The streaming outputs are written into the Cassandra. For the real-time streaming process, with proper schema, Cassandra is a natural database tool to offer data ordered in time.
 
 ### Work platform
-The entire work is done on the AWS 4 m4.large instances.
+The entire work is preformed on the AWS using four m4.large instances.
