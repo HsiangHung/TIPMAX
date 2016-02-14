@@ -74,7 +74,8 @@ if __name__ == "__main__":
         exit(-1)
 
     sc = SparkContext(appName="PythonStreamingKafkaSQL")
-    ssc = StreamingContext(sc, intervalt)
+    #ssc = StreamingContext(sc, intervalt)
+    ssc = StreamingContext(sc,60)
 
     ##################################################
     zkQuorum, topic = sys.argv[1:]
@@ -82,7 +83,7 @@ if __name__ == "__main__":
     lines = kvs.map(lambda x: x[1])
     ##################################################
 
-    ## new index assigned:
+    ## input index assigned:
     ##  0: pick_date              |    1: pick_time           |    2: drop_ time    |  3: distance
     ##  4: drop-off location      |    5: drop-off date       |    6: fare          |  7: paytype
     ##  8: pick-up location       |    9: number of passages  |   10: tips          | 11: tipsratio
@@ -90,19 +91,11 @@ if __name__ == "__main__":
 
     counts = lines.map(lambda x: x.replace('\n','').replace(' ','').split('|') )
 
- 
-    #counts.pprint()
 
     output = counts.map(lambda x:[x[0].encode('utf-8'), int(x[1]), float(x[8].replace('[','').replace(']','').split(',')[0]), float(x[8].replace('[','').replace(']','').split(',')[1]), float(x[10]), float(x[11]), float(x[12]) ] )
+    ## output index assigned:
     ## date, pick-time, pick_loc(x), pick_loc(y), tips, tips-ratio, total-fare
-
  
-    #output = output.filter(lambda x:  (x[3] == 0.0) & (x[12] != 0))  ## for zero distance but with finite fare
-    
-    ## pick-up location filter:
-    #counts = counts.filter(lambda x :  (-74.0 < x[8][0] < -73.8) &  (41.0 > x[8][1] > 40.7) )  
-
-    #output.pprint()
 
 
     # Convert RDDs of the words DStream to DataFrame and run SQL query
@@ -122,13 +115,19 @@ if __name__ == "__main__":
         sec  = now_time.strftime('%S')
 
         realtime = int(str(hour)+str(mins)+str(sec))
-        time2   =  realtime+100   ## 1min = add 100 in bigint format, data query
 
-        print (realtime, time2)
+        if int(mins) != 0: 
+            time2   =  realtime-100   ## 1min = add 100 in bigint format, data query
+        else:
+            time2   =  int(str(int(hour)-1)+str(mins)+'00')
+
 
         ## pic-up time filter:
-        rddUpdate = rdd.filter(lambda x:  time2 > x[1] > realtime)
+        rddUpdate = rdd.filter(lambda x:  time2 < x[1] < realtime)
+        
 
+        ## pic-up locations filter (NYC dowtown):
+        #rddUpdate = rdd.filter(lambda x :  (-74.01 < x[2] < -73.96) &  (40.765 > x[3] > 40.73) )
 
         # Get the singleton instance of SQLContext  
         sqlContext = getSqlContextInstance(rddUpdate.context)
@@ -137,27 +136,20 @@ if __name__ == "__main__":
         rowRdd = rddUpdate.map(lambda w: Row(adate=w[0],btime=w[1],cloc_x=w[2],dloc_y=w[3], etips=w[4],\
                                                     fratio=w[5], pay=w[6], date=date, time=realtime))
         wordsDataFrame = sqlContext.createDataFrame(rowRdd)
-        #wordsDataFrame = sqlContext.createDataFrame(output,["date","time", "tips"])
-
 
         # Register as table
         wordsDataFrame.registerTempTable("outputTable")
-        #wordsDataFrame.show()
 
-        # Do word count on table using SQL and print it
+        # Do sort on table using SQL and store in Cassandra
         testDataFrame = sqlContext.sql("select adate,btime,cloc_x,dloc_y,etips, fratio, pay from outputTable ORDER BY fratio  DESC limit 5")
         summaryDataFrame = sqlContext.sql("select cast(avg(date) as Integer) as date, cast(avg(time) as Integer) as time, min(fratio) as min, max(fratio) as max, avg(fratio) as avg from outputTable")
         
 
         testDataFrame.write.format("org.apache.spark.sql.cassandra").options(table="playtest",keyspace="test").save(mode="append")
-
         summaryDataFrame.write.format("org.apache.spark.sql.cassandra").options(table="agg",keyspace="test").save(mode="append")
-
-
         testDataFrame.show()
         summaryDataFrame.show()
 
-        #summaryDataFrame[0,0].pprint()
 
 
 
