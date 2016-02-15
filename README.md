@@ -22,5 +22,10 @@ The second part is the real-time streaming process. The NYC does not provide liv
 
 After collecting data, the Spark streaming filters out the events based on the current (eastern) time, and then we implement the Spark-SQL to do aggregation operations, such as listing top-five high-tip locations and finding averaged/maximum tips during the time window. The time window could be few seconds or a minute, set in Spark Streaming. The aggregated outputs are written into the Cassandra. For the real-time streaming process, with a proper schema, Cassandra is a natural database tool to offer data ordered in time.
 
+The following shows the the real-time averaged tips and max tips. The web is auto-flash (with every few seconds).
+![](figures/fig5.png)
+The aggregated outputs result from the data ingestion from Kafka and batcg process from Spark Streaming.
+
+
 ### Work platform
 The entire work is preformed on the AWS using four m4.large instances.
