@@ -24,7 +24,7 @@ After collecting data, the Spark streaming filters out the events based on the c
 
 
 ![](figures/fig5.png)
-The above figure shows a mocked real-time result. The averaged tips and max tips are the aggregated outputs from the data ingestion from Kafka and batch process from Spark Streaming filtering out "current time" over the New York city. For reality, the plot needs a minute for a period to update since the data ingestion needs a minute for a cycle (to read from an entire file). However, the data aggregated time can be arbitrarily tuned as there really exists real-time input. To demonestrate, the figure shown above, simulates the dynamic profile updated within every 5 seconds. With these processes, one can further consider to compare the features on different locations, e.g. airports or nearby Time Square, etc.
+The above figure shows a mocked real-time result. The averaged tips and max tips are the aggregated outputs from the data ingestion from Kafka and batch process from Spark Streaming filtering out "current time" over the New York city. For reality, the plot needs a minute for a period to update since the data ingestion needs a minute for a cycle (to read from an entire file). However, the data aggregated time can be arbitrarily tuned as there really exists real-time input. To demonestrate, the figure shown above, simulates the dynamic profile updated within every 5 seconds. With these processes, one can further consider more complicated query, such as comparing the tips on airports and nearby Time Square, etc.
 
 
 
