@@ -115,21 +115,11 @@ if __name__ == "__main__":
 
     # write to local disk:
 #    output = sortedCount.collect()
-
 #    index=0
 #    for line in output:
        #print (line)
 #       print ( "   ".join(repr(x) for x in line))
 #       index += 1
 #       if index == 20: break
-
-    #print (output)
-
-    ## the followings work in the same manner:
-    #output = sortedCount.map(lambda x: x[7]).reduce(lambda a,b :a+b)
-    #sortedCount = sortedCount.reduce(add)
-
-    #print ('total tips: ', output, ' ave tips: ', output/sortedCount.count())
-    
 
     sc.stop()
