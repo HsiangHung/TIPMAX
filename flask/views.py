@@ -4,6 +4,11 @@ from cassandra.cluster import Cluster
 cluster = Cluster(['52.72.109.43','52.22.233.5','52.21.15.67','52.2.153.27'])
 session2009 = cluster.connect('taxi_2009')
 session2010 = cluster.connect('taxi_2010')
+session2011 = cluster.connect('taxi_2011')
+session2012 = cluster.connect('taxi_2012')
+session2013 = cluster.connect('taxi_2013')
+session2014 = cluster.connect('taxi_2014')
+session2015 = cluster.connect('taxi_2015')
 
 
 from flask import render_template, request
@@ -52,6 +57,11 @@ def output():
        stmt= "SELECT * FROM "+table+" WHERE apick_date=%s and bpick_time >= %s and bpick_time <= %s"
        if year == '2009': response = session2009.execute(stmt,parameters=[Date, Time_1, Time_2])
        if year == '2010': response = session2010.execute(stmt,parameters=[Date, Time_1, Time_2])
+       if year == '2011': response = session2011.execute(stmt,parameters=[Date, Time_1, Time_2])
+       if year == '2012': response = session2012.execute(stmt,parameters=[Date, Time_1, Time_2])
+       if year == '2013': response = session2013.execute(stmt,parameters=[Date, Time_1, Time_2])
+       if year == '2014': response = session2014.execute(stmt,parameters=[Date, Time_1, Time_2])
+       if year == '2015': response = session2015.execute(stmt,parameters=[Date, Time_1, Time_2])
        #response = session.execute(stmt,parameters=[Date, Time_1, Time_2])
        taxi = []
        for val in response:
@@ -96,6 +106,11 @@ def tipoutput():
        stmt= "SELECT * FROM "+table+" WHERE apick_date=%s and bpick_time >= %s and bpick_time <= %s"
        if year == '2009': response = session2009.execute(stmt,parameters=[Date, Time_1, Time_2])
        if year == '2010': response = session2010.execute(stmt,parameters=[Date, Time_1, Time_2])
+       if year == '2011': response = session2011.execute(stmt,parameters=[Date, Time_1, Time_2])
+       if year == '2012': response = session2012.execute(stmt,parameters=[Date, Time_1, Time_2])
+       if year == '2013': response = session2013.execute(stmt,parameters=[Date, Time_1, Time_2])
+       if year == '2014': response = session2014.execute(stmt,parameters=[Date, Time_1, Time_2])
+       if year == '2015': response = session2015.execute(stmt,parameters=[Date, Time_1, Time_2])
        #response = session.execute(stmt,parameters=[Date, Time_1, Time_2])
        taxi = []
        for val in response:
@@ -134,6 +149,11 @@ def fareoutput():
        stmt= "SELECT * FROM "+table+" WHERE apick_date=%s and bpick_time >= %s and bpick_time <= %s"
        if year == '2009': response = session2009.execute(stmt,parameters=[Date, Time_1, Time_2])
        if year == '2010': response = session2010.execute(stmt,parameters=[Date, Time_1, Time_2])
+       if year == '2011': response = session2011.execute(stmt,parameters=[Date, Time_1, Time_2])
+       if year == '2012': response = session2012.execute(stmt,parameters=[Date, Time_1, Time_2])
+       if year == '2013': response = session2013.execute(stmt,parameters=[Date, Time_1, Time_2])
+       if year == '2014': response = session2014.execute(stmt,parameters=[Date, Time_1, Time_2])
+       if year == '2015': response = session2015.execute(stmt,parameters=[Date, Time_1, Time_2])
        #response = session.execute(stmt,parameters=[Date, Time_1, Time_2])
        taxi = []
        for val in response:
@@ -145,28 +165,3 @@ def fareoutput():
 
 
 
-
-#@app.route('/api/<email>/<date>')
-#def get_email(email, date):
-#       stmt = "SELECT * FROM email WHERE id=%s and date=%s"
-#       response = session.execute(stmt, parameters=[email, date])
-#       response_list = []
-#       for val in response:
-#            response_list.append(val)
-#       jsonresponse = [{"first name": x.fname, "last name": x.lname, "id": x.id, "message": x.message, "time": x.time}# for x in response_list]
-#       return jsonify(emails=jsonresponse)
-
-
-
-#@app.route('/db') 
-#def cities_page():
-#    db = mdb.connect(user="root", host="localhost", db="world_innodb", charset='utf8')
-#    with db:
-#        cur = db.cursor()
-#        cur.execute("SELECT Name FROM City LIMIT 15;")
-#        query_results = cur.fetchall() 
-#        cities = ""
-#        for result in query_results: 
-#            cities += result[0]
-#            cities += "<br>" 
-#        return cities
