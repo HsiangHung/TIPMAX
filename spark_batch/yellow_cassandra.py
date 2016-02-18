@@ -75,18 +75,11 @@ if __name__ == "__main__":
     ##  8: pick-up location       |    9: number of passages  |   10: tips          | 11: tipsratio          
     ## 12: totalpay
 
-
 #    datelist = [('2009-03-27','y_2009_03_27')]
-
 
     datelist =list()
     for i in range(0,30):
-#        print (i)
         datelist.append(('2009-04-'+str(i+1).zfill(2),'y_2009_04_'+str(i+1).zfill(2)))
-
-
-#    print (datelist)
-#    sc.stop()
 
 
     for date, tablename in datelist:
@@ -109,7 +102,6 @@ if __name__ == "__main__":
             "drop_tdate","fare","paytype", "pick_loc","ppl_count","tips","tipsratio","totalpay"])
         Ticks.write.format("org.apache.spark.sql.cassandra").options(table =tablename, keyspace="taxi_2009").save()
         ##############################  for cassandra ###########################
-
 
 #    sortedCount.saveAsTextFile("hdfs://52.70.48.150:9000/user/test33")
 
