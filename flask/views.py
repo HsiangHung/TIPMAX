@@ -164,4 +164,74 @@ def fareoutput():
 
 
 
+################################################################################################
+
+@app.route('/api/rt/')
+def realtimeoutput2():
+       #table = 'agg'                                                                                                   
+       now_time = datetime.now(timezone('US/Eastern'))
+
+       year  = now_time.strftime('%Y')
+       month = now_time.strftime('%m')
+       day   = now_time.strftime('%d')
+       realDate = str(str(year)+str(month).zfill(2)+str(day).zfill(2))
+
+       hour = now_time.strftime('%H')
+       mins = now_time.strftime('%M')
+       sec  = now_time.strftime('%S')
+
+       #print 'query-1',realDate, hour, mins, sec
+       #realTime = int(str(hour)+str(mins)+'00')                                                                        
+       realTime = int(str(hour)+str(mins)+str(sec))
+
+       if int(mins) >= 4:
+           pastTime = int(str(hour)+str(int(mins)-4).zfill(2)+str(sec).zfill(2))
+       else:
+           pastTime = int(str(int(hour)-1)+str(int(mins)+60-4).zfill(2)+str(sec).zfill(2))
+
+       #print 'query-2', realDate, realTime, pastTime
+
+
+       #stmt= "SELECT * FROM agg WHERE date=%s and time = %s"                                                           
+       #response = session.execute(stmt,parameters=[realDate,realTime])                                                 
+
+       stmt= "SELECT * FROM agg WHERE date=%s and time >= %s"
+       response = session.execute(stmt,parameters=[realDate,pastTime])
+
+       taxi = []
+       #date and time                                                                                                   
+       for val in response:
+            date= val.date.encode('utf-8')
+            time= str(val.time)
+            #print time                                                                                                 
+            year = date[:4]
+            month= date[4:6]
+            day  = date[6:]
+            if len(time) == 6:
+                hour = time[:2]
+                mins = time[2:4]
+                sec  = time[4:]
+            elif len(time) == 5:
+                hour = time[:1]
+                mins = time[1:3]
+                sec  = time[3:]
+            elif len(time) == 4:
+                hour = '00'
+                mins = time[:2]
+                sec  = time[2:]
+            elif len(time) == 3:
+                hour = '00'
+                mins = '0'+time[:1]
+                sec  = time[1:]
+           elif len(time) == 2:
+                hour = '00'
+                mins = '00'
+                sec  = time[:]
+            tstamp= str(year+'-'+month+'-'+day+' '+hour+':'+mins+':'+sec)
+            taxi.append([tstamp,float(val.avg.encode('utf-8')),float(val.max.encode('utf-8')\
+)  ] )
+
+                                                                                  
+        return render_template('realtimegraph.html', taxidata=taxi)
+
 
