@@ -168,7 +168,6 @@ def fareoutput():
 
 @app.route('/api/rt/')
 def realtimeoutput2():
-       #table = 'agg'                                                                                                   
        now_time = datetime.now(timezone('US/Eastern'))
 
        year  = now_time.strftime('%Y')
@@ -180,16 +179,12 @@ def realtimeoutput2():
        mins = now_time.strftime('%M')
        sec  = now_time.strftime('%S')
 
-       #print 'query-1',realDate, hour, mins, sec
-       #realTime = int(str(hour)+str(mins)+'00')                                                                        
        realTime = int(str(hour)+str(mins)+str(sec))
 
        if int(mins) >= 4:
            pastTime = int(str(hour)+str(int(mins)-4).zfill(2)+str(sec).zfill(2))
        else:
            pastTime = int(str(int(hour)-1)+str(int(mins)+60-4).zfill(2)+str(sec).zfill(2))
-
-       #print 'query-2', realDate, realTime, pastTime
 
 
        #stmt= "SELECT * FROM agg WHERE date=%s and time = %s"                                                           
