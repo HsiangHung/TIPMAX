@@ -13,7 +13,7 @@ The whole project pipeline icnludes two parts: static pipeline and real-time str
 ### Static pipeline
 
 For the first part, I fetched the taxi data from the New York city government website, which offered 2009 Jan.- 2015 June data. The total amount is about 200GB and there are 13 billions events in the datasets. Also, the data is not ordered in time. So after loading the clean data (using Pythong to clean data) into the file distributed system HDFS, first we perform the batch processes to group the data by date. The pipeline is as follows ![](figures/fig3.png)
-I chose to use Apache Spark to do the batch process and stored the time-ordered outcome in the NoSQL database, Cassandra. Spark does MapReduce to filter out "payement type". On the other hand, Cassandra plays a good role to provide high availability in writing. When one wishes to visualize the pick-up locations, tips or fare profiles for a certain date and time, the Flask will query data from Cassandra and shows the profile in MapBox (like previous two figures).
+I chose to use Apache Spark to do the MapReduce to filter out "payement type" and rearraned the event timestamp, and stored the time-ordered outcome in the NoSQL database, Cassandra. Compared to Hadoop MapReduce, Spark is very efficient to store data as RDD format in memory. On the other hand, Cassandra plays a good role to provide high availability in writing. When one wishes to visualize the pick-up locations, tips or fare profiles for a certain date and time, the Flask will query data from Cassandra and shows the profile in MapBox (like previous two figures).
 
 ### Real-time streaming process 
 
