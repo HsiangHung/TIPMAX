@@ -225,8 +225,44 @@ def realtimeoutput2():
             tstamp= str(year+'-'+month+'-'+day+' '+hour+':'+mins+':'+sec)
             taxi.append([tstamp,float(val.avg.encode('utf-8')),float(val.max.encode('utf-8')\
 )  ] )
+      
+       ###### -------------------------------------------------------
+       
+       stmt= "SELECT * FROM agg_cash WHERE date=%s and time >= %s"
+       response = session.execute(stmt,parameters=[realDate,pastTime])
 
+       cash = []
+       for val in response:
+            date= val.date.encode('utf-8')
+            time= str(val.time)
+            #print time                                                                                                 
+            year = date[:4]
+            month= date[4:6]
+            day  = date[6:]
+            if len(time) == 6:
+                hour = time[:2]
+                mins = time[2:4]
+                sec  = time[4:]
+            elif len(time) == 5:
+		        hour = time[:1]
+                mins = time[1:3]
+                sec  = time[3:]
+            elif len(time) == 4:
+                hour = '00'
+                mins = time[:2]
+                sec  = time[2:]
+            elif len(time) == 3:
+                hour = '00'
+                mins = '0'+time[:1]
+                sec  = time[1:]
+            elif len(time) == 2:
+                hour = '00'
+                mins = '00'
+                sec  = time[:]
+                
+            tstamp= str(year+'-'+month+'-'+day+' '+hour+':'+mins+':'+sec)
+            cash.append([tstamp,float(val.avg.encode('utf-8')),float(val.max.encode('utf-8'))  ] )
                                                                                   
-        return render_template('realtimegraph.html', taxidata=taxi)
+        return render_template('realtimegraph.html', taxidata=taxi, cashdata=cash)
 
 
