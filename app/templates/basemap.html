@@ -10,7 +10,7 @@
     <link rel="icon" href="../../favicon.ico">
     <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" media="screen">
      <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
-    <title>Taxi Drivers Tip Heatmap</title>
+    <title>Taxi Drivers Tip Helper</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../static/css/bootstrap.min.css" rel="stylesheet">
@@ -58,8 +58,10 @@
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             <li class="active"><a href="/">Home</a></li>
+            <li><a href="/fareinput">Fare</a></li>
             <li><a href="/tipinput">Tips</a></li>
-	    <li><a href="/fareinput">Fare</a></li>
+            <li><a href="http://52.71.0.86:5000/api/rt/">Real-time analysis</a></li>
+            <li><a href="http://www.slideshare.net/hsianghsuanhung">Demo</a></li>
             <li><a href="https://www.linkedin.com/in/hsianghhung">About me</a></li>
             <!-- <li><a href="#contact">Contact</a></li> -->
           </ul>
@@ -74,13 +76,13 @@
         <td><img src="http://www.thesydneytaxischool.com/media/pics/site/imagecache/D/8/D8D4F71150340712CCFBECA9CEFE2AED.png" alt="taxi icon" style="width:110px;height:110px;"></td>
 
         <td><div class="starter-template">
-              <h1>NYC Taxi Fare Heatmap</h1>
-              <p class="lead"> Find best location to max your fare!</p>
+              <h1>NYC Taxi Helper</h1>
+              <p class="lead"> A web app to help taxi drivers to max their income.</p>
         </div></td>
                 
         <td>
       <!--  <div class = "container">  -->
-            <form  name="/fareinput" action="/fareoutput" method="GET">
+            <form  name="input" action="/output" method="GET">
                 <div class="form-group">
                     <label for="searchDate"><h4  style="color:blue;">Date:</h4></label>
                     <input type="text" size="20" id="searchDate" name='date' placeholder="e.g. 2009-02-03">
@@ -91,7 +93,7 @@
                 </div>
          </td>
          <td>
-               <div><button type="submit" class="btn btn-default btn-lg">Fare Max!</button></div> 
+               <div><button type="submit" class="btn btn-default btn-lg"><h4>Loc Go!</h4></button></div> 
             </form>
          </td>
         </tr>

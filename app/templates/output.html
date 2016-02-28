@@ -58,8 +58,10 @@
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             <li class="active"><a href="/">Home</a></li>
-            <li><a href="/tipinput">Tips</a></li>
             <li><a href="/fareinput">Fare</a></li>
+            <li><a href="/tipinput">Tips</a></li>
+            <li><a href="http://52.71.0.86:5000/api/rt/">Real-time analysis</a></li>
+            <li><a href="http://www.slideshare.net/hsianghsuanhung">Demo</a></li>
             <li><a href="https://www.linkedin.com/in/hsianghhung">About me</a></li>
             <!-- <li><a href="#contact">Contact</a></li> -->
           </ul>
@@ -71,7 +73,7 @@
 
         <table style="width:90%">
         <tr>
-        <td><img src="http://www.thesydneytaxischool.com/media/pics/site/imagecache/D/8/D8D4F71150340712CCFBECA9CEFE2AED.png" alt="taxi icon" style="width:110px;height:110px;"></td>
+        <td><img src="http://www.thesydneytaxischool.com/media/pics/site/imagecache/D/8/D8D4F71150340712CCFBECA9CEFE2AED.png" alt="taxi icon" style="width110px;height:110px;"></td>
 
         <td><div class="starter-template">
               <h1>NYC Taxi Helper</h1>
@@ -83,15 +85,15 @@
             <form  name="input" action="/output" method="GET">
                 <div class="form-group">
                     <label for="searchDate"><h4  style="color:blue;">Date:</h4></label>
-                    <input type="text" size="20" id="searchDate" name='date' placeholder="e.g. 2009-02-03">
+                    <input type="text" size="20" id="searchDate" name='date' value ={{date}}>
                 </div>
                 <div class="form-group">
                     <label for="searchTime"><h4 style="color:blue;">Time:</h4></label>
-                    <input type="text" size="20" id="searchTime" name='time' placeholder="e.g. 18:39:50">
+                    <input type="text" size="20" id="searchTime" name='time' value={{time}}>
                 </div>
          </td>
          <td>
-               <div><button type="submit" class="btn btn-default btn-lg">Loc Go!</button></div> 
+               <div><button type="submit" class="btn btn-default btn-lg"><h4>Loc Go!</h4></button></div> 
             </form>
          </td>
         </tr>
@@ -107,9 +109,9 @@
 
 
     <div class="container">
-     <div class="container">   
+      <div class="container"> 
 
-        <div id="map" style="width: 1000px; height: 400px"></div>
+        <div id="map" style="width: 1000px; height: 500px"></div>
 
 	<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
 
@@ -125,11 +127,10 @@
       }).addTo(map);
 
 
-	  L.marker([40.74394, -73.99098]).addTo(map).bindPopup("<b>Hello world!</b><br />Insight is here!").openPopup();
+          {% for event in taxidata %}
+                L.marker([{{event[0]}}, {{event[1]}}]).addTo(map).openPopup();
+          {% endfor %}
 
-	<!--  L.circle([51.508, -0.11], 500, {color: 'red', fillColor: '#f03', fillOpacity: 0.5}).addTo(map).bindPopup("I am a circle.");  -->
-
-	<!--  L.polygon([ [51.509, -0.08], [51.503, -0.06], [51.51, -0.047] ]).addTo(map).bindPopup("I am a polygon."); -->
 
 	  var popup = L.popup();
 
