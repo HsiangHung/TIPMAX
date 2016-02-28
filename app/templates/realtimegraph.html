@@ -60,9 +60,10 @@
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             <li class="active"><a href="http://tipmaxnyc.xyz/">Home</a></li>
-            <li><a href="http://tipmaxnyc.xyz/tipinput">Tips</a></li>
             <li><a href="http://tipmaxnyc.xyz/fareinput">Fare</a></li>
+            <li><a href="http://tipmaxnyc.xyz/tipinput">Tips</a></li>
             <li><a href="http://52.71.0.86:5000/api/rt/">Real-time analysis</a></li>
+            <li><a href="http://www.slideshare.net/hsianghsuanhung">Demo</a></li>
             <li><a href="https://www.linkedin.com/in/hsianghhung">About me</a></li>
             <!-- <li><a href="#contact">Contact</a></li> -->
           </ul>
@@ -120,32 +121,68 @@
       <script>
 
            var trace1 = {
-           y: [{% for event in taxidata %} {{event[1]}}, {% endfor %}],
-           x: [{% for event in taxidata %} "{{event[0]}}", {% endfor %}],
+           y: [{% for event in creddata %} {{event[1]}}, {% endfor %}],
+           x: [{% for event in creddata %} "{{event[0]}}", {% endfor %}],
            line: { width: 3 },
-           name: 'Avg Tip',
+           xaxis: 'x1',
+           type: 'scatter',
+           name: 'CRD: Avg',
            uid: "40abaa"};
 
            var trace2 = {
-           y: [{% for event in taxidata %} {{event[2]}}, {% endfor %}],
-           x: [{% for event in taxidata %} "{{event[0]}}", {% endfor %}],
-           line: { width: 2 },
-           name: 'Max Tip',
+           y: [{% for event in creddata %} {{event[2]}}, {% endfor %}],
+           x: [{% for event in creddata %} "{{event[0]}}", {% endfor %}],
+           line: { width: 3 },
+           xaxis: 'x1',
+           type: 'scatter',
+           name: 'CRD: Max',
            uid: "40abaa"};
 
-           var data= [trace1, trace2];
 
-	   var layout = {
-	   yaxis: { title: "Tips (%)"},      // set the y axis title
-	   xaxis: {
+           var trace3 = {
+           y: [{% for event in cashdata %} {{event[1]}}, {% endfor %}],
+           x: [{% for event in cashdata %} "{{event[0]}}", {% endfor %}],
+           line: { width: 2 },
+           xaxis: 'x2',
+           yaxis: 'y2',
+           type: 'scatter',
+           name: 'CASH: Avg',
+           uid: "40abaa"};
+
+           var trace4 = {
+           y: [{% for event in cashdata %} {{event[2]}}, {% endfor %}],
+           x: [{% for event in cashdata %} "{{event[0]}}", {% endfor %}],
+           line: { width: 2 },
+           xaxis: 'x2',
+           yaxis: 'y2', 
+           type: 'scatter',
+           name: 'CASH: Max',
+           uid: "40abaa"};
+
+           var data= [trace1, trace2, trace3, trace4];
+
+           var layout = {
+           yaxis: { title: "Tips (%)",
+           range: [0,1] },      // set the y axis title
+
+           yaxis2: { anchor:'x2', range: [0,1] },      // set the y axis title
+
+           xaxis1: {
+           domain:[0.0,0.5],
            showgrid: false,                  // remove the x-axis grid lines
            tickformat: "%H:%M"              // customize the date format to "month, day"
-	   },
-	   margin: {                           // update the left, bottom, right, top margin
-           l: 60, b: 20, r: 10, t: 0}
-	   };
+           },
 
-	   Plotly.plot(document.getElementById('tip-analysis'), data, layout);
+           xaxis2: {
+           domain:[0.55,1],
+           showgrid: false,                  // remove the x-axis grid lines
+           tickformat: "%H:%M"              // customize the date format to "month, day"
+           },
+           margin: {                           // update the left, bottom, right, top margin
+           l: 60, b: 20, r: 10, t: 20}
+           };
+
+           Plotly.plot(document.getElementById('tip-analysis'), data, layout);
     </script>
 
 
