@@ -266,3 +266,64 @@ def realtimeoutput2():
         return render_template('realtimegraph.html', taxidata=taxi, cashdata=cash)
 
 
+###################################################################################################### 
+
+
+@app.route('/tipshistory')
+def timeseriesplot():
+       #numData = request.args.get('numData')
+
+       now_time = datetime.now(timezone('US/Eastern'))
+
+       hour = now_time.strftime('%H')
+       mins = now_time.strftime('%M')
+       sec  = now_time.strftime('%S')
+
+       currentTime = int(str(hour)+str(mins)+str(sec))
+       earlyTime   = int(currentTime)+6000
+       if currentTime >= 235500: earlyTime = 235959
+       tipsavg = []
+       for i in range(100):
+           if i ==0:
+               ## put the followings ints
+               year  = 2015#now_time.strftime('%Y')
+               month = 2#now_time.strftime('%m')
+               day   = 23#now_time.strftime('%d')              
+           else:
+               if day > 7:
+                   day = day-7
+               else:
+                   if month >1:
+                      day = day-7+numdays[month-1]
+                      month = month -1
+                   else:
+                      day = day-7 +numdays[12]  ## back to a year
+                      month = 12
+                      year= year -1
+
+
+           Date = str(str(year)+'-'+str(month).zfill(2)+'-'+str(day).zfill(2))
+           table = 'y_'+str(year)+'_'+str(month).zfill(2)+'_'+str(day).zfill(2)
+
+
+           #print Date, currentTime
+
+          stmt= "SELECT * FROM "+table+" WHERE apick_date=%s and bpick_time >= %s and bpick_time <= %s"
+
+           if year == 2009: response = session2009.execute(stmt,parameters=[Date, currentTime, earlyTime])
+           if year == 2010: response = session2010.execute(stmt,parameters=[Date, currentTime, earlyTime])
+           if year == 2011: response = session2011.execute(stmt,parameters=[Date, currentTime, earlyTime])
+           if year == 2012: response = session2012.execute(stmt,parameters=[Date, currentTime, earlyTime])
+           if year == 2013: response = session2013.execute(stmt,parameters=[Date, currentTime, earlyTime])
+           if year == 2014: response = session2014.execute(stmt,parameters=[Date, currentTime, earlyTime])
+           if year == 2015: response = session2015.execute(stmt,parameters=[Date, currentTime, earlyTime])
+
+           taxi = []
+           for val in response:
+               taxi.append(float(val.tipsratio.encode('utf-8')))
+
+           print len(taxi), sum(taxi), sum(taxi)/len(taxi)
+           tipsavg.append([Date,sum(taxi)/len(taxi)])
+
+       #return jsonify(taxidata=tipsavg) 
+       return render_template('singlePlot.html', taxidata=tipsavg)
