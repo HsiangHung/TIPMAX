@@ -35,7 +35,7 @@ The entire work is preformed on the AWS using four m4.large instances.
 
 ### Time-series analysis
 
-Followed by the data pipeline, we can perform time-series analysis to forecast the future tips from the histroical data. For example, the figure below shows the every Wednesday 4PM-5PM averaged tips, over 200 past weeks. One interesting question to ask is, how much tips the NYC taxi drivers should expect to gain?
+Followed engineering the data pipeline, we can perform time-series analysis to forecast the future tips from the histroical data. For example, the figure below shows the every Wednesday 4PM-5PM averaged tips, over 200 past weeks. One interesting question to ask is, how much tips the NYC taxi drivers should expect to gain?
 
 ![](figures/fig6.png)
 
