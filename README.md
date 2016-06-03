@@ -29,10 +29,14 @@ The above figure shows two mocked real-time processes. The left and right panels
 
 
 ### Work platform
+
 The entire work is preformed on the AWS using four m4.large instances.
 
 
 ### Time-series analysis
+
+Followed by the data pipeline, we can perform time-series analysis to forecast the future tips from the histroical data. For example, the figure below shown the every Wednesday 4PM-5PM averaged tips, over 200 weeks. One interesting question to ask is, how much tips we should pay to the NYC taxi drivers?
 ![](figures/fig6.png)
-Followed by the data pipeline, we can perform time-series analysis to forecast the future tips from the histroical data.
+
+To answer the questions, we implemented autoregression-integrated-moving-averaged (ARIMA) model to make forecast. We need to trasnform the data to make sure the data is stationary, and then find the model. The detail is in the Python script in the "time-series analysis" folder. The model fitting result shows the optimal tip is about 15.3%.
 
