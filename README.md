@@ -35,7 +35,7 @@ The entire work is preformed on the AWS using four m4.large instances.
 
 ### Time-series analysis
 
-Followed by engineering the data pipeline, one interesting question to ask is, how much tips the NYC taxi drivers should expect to gain in future? Can we predict it? To answer it, we can perform time-series analysis to forecast future tips from the histroical data. For example, if now it is Wednesday afternoon 5PM, we want to know the optimal current number. We can collect the mean tips at 4PM-5PM every Wednesday from the past 200 weeks, as shown in the figure below:
+Followed by engineering the data pipeline, one interesting question to ask is, how much tips the NYC taxi drivers should expect to gain in future? Can we predict it? To answer it, we can perform time-series analysis to forecast future tips from the histroical data. For example, if now it is Wednesday afternoon 5PM, we want to know the optimal current number. We can compute the mean tips at 4PM-5PM every Wednesday collected from the past 200 weeks, as shown in the figure below:
 
 ![](figures/fig6.png)
 
