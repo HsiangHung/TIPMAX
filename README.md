@@ -1,4 +1,4 @@
-# TIP MAX
+# TipMax
 
 ## Motivation
 
@@ -30,3 +30,9 @@ The above figure shows two mocked real-time processes. The left and right panels
 
 ### Work platform
 The entire work is preformed on the AWS using four m4.large instances.
+
+
+### Time-series analysis
+![](figures/fig6.png)
+Followed by the data pipeline, we can perform time-series analysis to forecast the future tips from the histroical data.
+
