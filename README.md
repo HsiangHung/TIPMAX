@@ -35,9 +35,9 @@ The entire work is preformed on the AWS using four m4.large instances.
 
 ### Time-series analysis
 
-Followed by engineering the data pipeline, one interesting question to ask is, how much tips the NYC taxi drivers should expect to gain in future? Can we predict it? To answer it, we can perform time-series analysis to forecast future tips from the histroical data. For example, the figure below shows the every Wednesday 4PM-5PM averaged tips, over 200 past weeks. 
+Followed by engineering the data pipeline, one interesting question to ask is, how much tips the NYC taxi drivers should expect to gain in future? Can we predict it? To answer it, we can perform time-series analysis to forecast future tips from the histroical data. For example, if now it is Wednesday afternoon 5PM, we want to know the optimal current number. We can collect the mean tips at 4PM-5PM every Wednesday from the past 200 weeks, as shown in the figure below:
 
 ![](figures/fig6.png)
 
-To answer the questions, we implemented autoregression-integrated-moving-averaged (ARIMA) model to make forecast. We need to trasnform the data to make sure the data is stationary, and then find the model. The detail is in the Python script in the "time-series analysis" folder. The model fitting result shows the optimal tip is about 15.3%.
+Then, we implemented autoregression-integrated-moving-averaged (ARIMA) model to make forecast. We need to trasnform the data to make sure the data is stationary, and then find the model. The detail is in the Python script in the "time-series analysis" folder. The model fitting result shows the optimal tip is about 15.3%.
 
