@@ -39,5 +39,5 @@ Followed by engineering the data pipeline, one interesting question to ask is, h
 
 ![](figures/fig6.png)
 
-Then, we implemented autoregression-integrated-moving-averaged (ARIMA) model to make forecast. We need to trasnform the data to make sure the data is stationary, and then find the model. The detail is in the Python script in the "time-series analysis" folder. The model fitting result shows the optimal tip is about 15.3%.
+Then, we implemented autoregression-integrated-moving-averaged (ARIMA) model to make forecast. We need to trasnform the data to make sure the data is stationary, and then fit the model. The detail is in the Python script in the "time-series analysis" folder. The model fitting result shows the optimal tip is about 15.3%.
 
