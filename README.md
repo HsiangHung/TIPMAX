@@ -3,7 +3,7 @@
 ## Motivation
 
 My Insight project is to design a web app, named Tip Max, to help (NYC) taxi drivers to maximize their incomes. It can visualize the pick-up locations, like ![](figures/fig1.png) and the profiles of the tip percentage (defined by tips/fare) 
-and the total fare that passengers paid over the New York city in the past years. The latter two features are visualized using heatmap, like ![](figures/fig2.png) By the above geolocation examples, taxi drivers can know that passengers around middle town are more generous than those from other regions. At a given time, the Tip Max is able to help taxi drivers to know the best location to increase their income from the hsitorial data and even forecast. The web is available at http://www.hsianghung.tech/app/ and the demo vedio is at http://www.youtube.com/watch?v=9FxNrReqnvE.
+and the total fare that passengers paid over the New York city in the past years. The latter two features are visualized using heatmap, like ![](figures/fig2.png) By the above geolocation examples, taxi drivers can know that passengers around middle town are more generous than those from other regions. At a given time, the Tip Max is able to help taxi drivers to know the best location to increase their income from the historial data and even forecast. The web is no longer available (on AWS server, usually I keep the server off), but [demo vedio](http://www.youtube.com/watch?v=9FxNrReqnvE) is available.
 
 
 ##Technical Details
