@@ -283,6 +283,8 @@ def timeseriesplot():
        earlyTime   = int(currentTime)+6000
        if currentTime >= 235500: earlyTime = 235959
        tipsavg = []
+       file = open("history.csv", "w")
+       file.write('Date,tips\n')
        for i in range(100):
            if i ==0:
                ## put the followings ints
@@ -323,6 +325,7 @@ def timeseriesplot():
                taxi.append(float(val.tipsratio.encode('utf-8')))
 
            print len(taxi), sum(taxi), sum(taxi)/len(taxi)
+           file.write(str(Date)+','+str(sum(taxi)/len(taxi))+'\n')
            tipsavg.append([Date,sum(taxi)/len(taxi)])
 
        #return jsonify(taxidata=tipsavg) 
